@@ -33,30 +33,27 @@ client.on("message", async (message) => {
       "\n";
     message.reply(b);
   } else if (mess[0] == "#gpt") {
-    a = message.body.substring(5);
-    const url = "https://you-chat-gpt.p.rapidapi.com/";
+    // a = message.body.substring(5);
+    a = "heloo world";
+    const { Configuration, OpenAIApi } = require("openai");
 
-    const options = {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "X-RapidAPI-Key": "030231b335msh850e556e125bff6p186a2ejsndc5721c390d5",
-        "X-RapidAPI-Host": "you-chat-gpt.p.rapidapi.com",
-      },
-      body: JSON.stringify({ question: a, max_response_time: 30 }),
+    const configuration = new Configuration({
+      apiKey: "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",
+    });
+    const openai = new OpenAIApi(configuration);
+    let b;
+    const func = async (str) => {
+      const completion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: str }],
+      });
+      console.log(completion.data.choices[0]);
+      b = completion.data.choices[0].message;
+      console.log(b.content);
     };
 
-    fetch(url, options)
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-        message.reply(json["answer"]);
-      })
-      .catch((err) => {
-        console.error("error:" + err);
-
-        message.reply(err);
-      });
+    func(a);
+    message.reply(b["content"]);
   } else if (mess[0] == "#py") {
     a = message.body.substring(4);
     const encodedParams = new URLSearchParams();
