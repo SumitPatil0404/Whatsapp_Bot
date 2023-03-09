@@ -33,12 +33,12 @@ client.on("message", async (message) => {
       "\n";
     message.reply(b);
   } else if (mess[0] == "#gpt") {
-    // a = message.body.substring(5);
-    a = "heloo world";
+    a = message.body.substring(5);
+    a="say happy birthday"
     const { Configuration, OpenAIApi } = require("openai");
 
     const configuration = new Configuration({
-      apiKey: "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",
+      apiKey: "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",
     });
     const openai = new OpenAIApi(configuration);
     let b;
@@ -47,13 +47,13 @@ client.on("message", async (message) => {
         model: "gpt-3.5-turbo",
         messages: [{ role: "user", content: str }],
       });
-      console.log(completion.data.choices[0]);
+      console.log(completion.data.choices[0].message);
       b = completion.data.choices[0].message;
-      console.log(b.content);
+      
+      message.reply(b.content);
     };
 
     func(a);
-    message.reply(b["content"]);
   } else if (mess[0] == "#py") {
     a = message.body.substring(4);
     const encodedParams = new URLSearchParams();
